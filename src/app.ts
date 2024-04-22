@@ -1,7 +1,11 @@
-import express from "express";
+import express, { json } from "express";
+import { corsMiddleware } from "./middlewares/cors";
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+app.use(json());
+app.use(corsMiddleware());
 
 app.get("/", (req, res) => {
   res.send("Hello world");
