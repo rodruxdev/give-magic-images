@@ -34,6 +34,8 @@ export class UsersModel {
 
     users.push(newUser);
     const resUser: UserInfo = { userId: newUser.userId, email: newUser.email };
+    console.log("Users:");
+    console.log(users);
     return resUser;
   }
 }

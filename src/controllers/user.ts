@@ -9,7 +9,7 @@ export class UsersController {
     if (result.error) {
       throw boom.badRequest(result.error.message);
     }
-    const newUser = UsersModel.create({ input: result.data });
+    const newUser = await UsersModel.create({ input: result.data });
     res.status(201).json(newUser);
   }
 }
