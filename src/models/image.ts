@@ -21,8 +21,8 @@ export class ImagesModel {
     const imageIndex = images.findIndex(
       (image) => image.imageId === imageId && image.userId === userId
     );
-    if (imageIndex < 0) {
-      throw boom.notFound();
+    if (imageIndex === -1) {
+      throw boom.notFound("Image not found.");
     }
     return images[imageIndex];
   }
@@ -39,7 +39,7 @@ export class ImagesModel {
       imageId: newImageId,
       url: imageURL,
       userId,
-      creationDate: new Date().toUTCString(),
+      creationDate: new Date().toISOString(),
     };
     images.push(newImage);
     console.log("Images:");

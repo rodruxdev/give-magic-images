@@ -9,7 +9,7 @@ export class AuthController {
     const data = req;
     const user = data.user as UserInfo | undefined;
     if (user === undefined) {
-      throw boom.badImplementation();
+      throw boom.badImplementation("User info not found.");
     }
     const payload = {
       sub: user?.userId,

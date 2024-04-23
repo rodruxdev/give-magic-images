@@ -9,7 +9,7 @@ export class UsersModel {
   static getById({ userId }: { userId: User["userId"] }): UserInfo | undefined {
     const user = users.find((user) => user.userId == userId);
     if (user === undefined) {
-      throw boom.notFound();
+      throw boom.notFound("User not found.");
     }
     const resUser: UserInfo = { userId: user?.userId, email: user?.email };
     return resUser;
@@ -18,7 +18,7 @@ export class UsersModel {
   static getByEmail({ email }: { email: User["email"] }): User {
     const user = users.find((user) => user.email == email);
     if (user === undefined) {
-      throw boom.notFound();
+      throw boom.notFound("User not found.");
     }
     return user;
   }
