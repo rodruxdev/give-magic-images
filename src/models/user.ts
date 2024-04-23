@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import type { User, UserForm, UserInfo } from "../schemas/users";
 import boom from "@hapi/boom";
+import bcrypt from "bcryptjs";
 
 const users: User[] = [];
 
@@ -22,11 +23,13 @@ export class UsersModel {
     return user;
   }
 
-  static create({ input }: { input: UserForm }): UserInfo {
+  static async create({ input }: { input: UserForm }): Promise<UserInfo> {
     const newId = randomUUID();
+    const hashedPassword = await bcrypt.hash(input.password, 8);
     const newUser: User = {
-      userId: newId,
       ...input,
+      userId: newId,
+      password: hashedPassword,
     };
 
     users.push(newUser);

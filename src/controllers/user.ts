@@ -1,7 +1,7 @@
 import boom from "@hapi/boom";
-import { validateUserForm } from "../schemas/users.js";
-import { UsersModel } from "../models/user.js";
 import { Request, Response } from "express";
+import { validateUserForm } from "../schemas/users";
+import { UsersModel } from "../models/user";
 
 export class UsersController {
   static async create(req: Request, res: Response) {
