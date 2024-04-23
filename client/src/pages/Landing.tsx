@@ -5,9 +5,9 @@ export const Landing = () => {
         Save your images with:
       </p>
       <h1 className="text-5xl text-center text-primary font-bold">
-        GiveMagic Images
+        GiveMagic <span className="text-secondary">Images</span>
       </h1>
-      <p className="text-lg my-2 text-black border-b-secodary border-solid border-b-2">
+      <p className="text-lg my-2 text-black border-b-secondary border-solid border-b-2">
         Register now and load your first image with us.
       </p>
     </div>
