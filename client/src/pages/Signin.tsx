@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useFormik } from "formik";
+import { signinService } from "../services/UserService";
 
 const validate = (values: { email: string; password: string }) => {
   const errors = { email: "", password: undefined };
@@ -11,24 +12,30 @@ const validate = (values: { email: string; password: string }) => {
   return errors;
 };
 
-export const Login = () => {
+export const Signin = () => {
+  const [error, setError] = useState(false);
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const formLogin = useFormik({
+  const formSignin = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validate,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      try {
+        await signinService(values as UserForm);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      }
       if (authContext !== null) {
         authContext.login(values as UserForm);
         navigate("/");
       }
     },
   });
-
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -38,12 +45,12 @@ export const Login = () => {
           </h1>
         </Link>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Log in to your account
+          Create a new account
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={formLogin.handleSubmit}>
+        <form className="space-y-6" onSubmit={formSignin.handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -59,12 +66,12 @@ export const Login = () => {
                 autoComplete="email"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-white"
-                onChange={formLogin.handleChange}
-                value={formLogin.values.email}
+                onChange={formSignin.handleChange}
+                value={formSignin.values.email}
               />
             </div>
-            {formLogin.errors.email && (
-              <span className="ml-2 text-error">{formLogin.errors.email}</span>
+            {formSignin.errors.email && (
+              <span className="ml-2 text-error">{formSignin.errors.email}</span>
             )}
           </div>
 
@@ -85,8 +92,8 @@ export const Login = () => {
                 autoComplete="current-password"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-secondary placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-white"
-                onChange={formLogin.handleChange}
-                value={formLogin.values.password}
+                onChange={formSignin.handleChange}
+                value={formSignin.values.password}
               />
             </div>
           </div>
@@ -96,18 +103,23 @@ export const Login = () => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Log in
+              Sign in
             </button>
           </div>
+          {(error || authContext?.authError) && (
+            <p className="text-error">
+              Oops! Something went wrong creating the user.
+            </p>
+          )}
         </form>
 
         <p className="mt-10 text-center text-sm text-black">
-          Not a member?{" "}
+          Already a member?{" "}
           <Link
-            to="/signin"
+            to="/login"
             className="font-bold underline leading-6 text-black hover:opacity-80"
           >
-            Sign in
+            Log in
           </Link>
         </p>
       </div>
