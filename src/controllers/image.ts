@@ -35,9 +35,8 @@ export class ImagesController {
     if (req.file === undefined) {
       throw boom.badRequest("File not uploaded.");
     }
-    const imageURL = req.file.path;
 
-    const image = ImagesModel.create({ userId: user.userId, imageURL });
+    const image = ImagesModel.create({ userId: user.userId, file: req.file });
     res.status(201).json(image);
   }
 }

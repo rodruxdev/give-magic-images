@@ -29,15 +29,16 @@ export class ImagesModel {
 
   static create({
     userId,
-    imageURL,
+    file,
   }: {
     userId: User["userId"];
-    imageURL: string;
+    file: Express.Multer.File;
   }) {
     const newImageId = randomUUID();
     const newImage: Image = {
       imageId: newImageId,
-      url: imageURL,
+      name: file.filename,
+      url: file.path,
       userId,
       creationDate: new Date().toISOString(),
     };
