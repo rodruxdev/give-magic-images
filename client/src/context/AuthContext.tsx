@@ -3,6 +3,7 @@ import { loginService } from "../services/AuthService";
 
 interface AuthContextInterface {
   token: string;
+  userEmail: string;
   authError: boolean;
   isAuth: boolean;
   login(userForm: UserForm): Promise<UserInfo | undefined>;
@@ -13,6 +14,7 @@ export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [error, setError] = useState(false);
   const isAuth = token !== "";
 
@@ -21,6 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { user, token } = await loginService(userForm);
       setToken(token);
       localStorage.setItem("jwt-token", token);
+      setUserEmail(user.email);
       return user;
     } catch (err) {
       setError(true);
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const initialAuthState = {
     token,
+    userEmail,
     authError: error,
     isAuth,
     login,
