@@ -42,6 +42,8 @@ export class ImagesModel {
       creationDate: new Date().toUTCString(),
     };
     images.push(newImage);
+    console.log("Images:");
+    console.log(images);
     return newImage;
   }
 }
