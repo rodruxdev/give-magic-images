@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import passport from "passport";
 import { upload } from "../middlewares/upload";
 import { ImagesController } from "../controllers/image";
@@ -22,4 +22,6 @@ imagesRouter.get(
   passport.authenticate("jwt", { session: false }),
   ImagesController.getById
 );
+
+imagesRouter.use("/file", express.static("tmp/images"));
 // TODO delete image

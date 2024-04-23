@@ -38,7 +38,7 @@ export class ImagesModel {
     const newImage: Image = {
       imageId: newImageId,
       name: file.filename,
-      url: file.path,
+      url: `/images/file/${file.filename}`,
       userId,
       creationDate: new Date().toISOString(),
     };
