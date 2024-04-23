@@ -7,7 +7,7 @@ export function logErrors(
   res: Response,
   next: NextFunction
 ) {
-  console.log("logErrors");
+  console.log("New error:");
   console.log(err);
   next(err);
 }
