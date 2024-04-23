@@ -23,6 +23,7 @@ app.use(corsMiddleware());
 
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
+app.use("/images", imagesRouter);
 
 app.use(logErrors);
 app.use(boomHandler);
