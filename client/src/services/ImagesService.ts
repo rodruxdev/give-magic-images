@@ -17,7 +17,7 @@ export const uploadImageService = async (
     throw new Error("Error creating a new image");
   }
   const data = await res.json();
-  console.log(data);
+  return data;
 };
 
 export const getImagesService = async (token: string): Promise<Image[]> => {

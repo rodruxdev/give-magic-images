@@ -10,7 +10,6 @@ export const UploadImage = ({
   getImages(): void;
 }) => {
   const [file, setFile] = useState<ImageDataType>({ preview: "" });
-  console.log(file);
   const authContext = useContext(AuthContext);
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     if (event.currentTarget.files) {
