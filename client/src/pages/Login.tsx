@@ -2,14 +2,7 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useFormik } from "formik";
-
-const validate = (values: { email: string; password: string }) => {
-  const errors = { email: "", password: undefined };
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Invalid email address";
-  }
-  return errors;
-};
+import { validateForm } from "../utils/formValidation";
 
 export const Login = () => {
   const authContext = useContext(AuthContext);
@@ -20,7 +13,7 @@ export const Login = () => {
       email: "",
       password: "",
     },
-    validate,
+    validate: validateForm,
     onSubmit: (values) => {
       if (authContext !== null) {
         authContext.login(values as UserForm);
@@ -51,6 +44,11 @@ export const Login = () => {
             >
               Email address
             </label>
+            {formLogin.errors.email && (
+              <span className="text-error text-xs">
+                {formLogin.errors.email}
+              </span>
+            )}
             <div className="mt-2">
               <input
                 id="email"
@@ -63,9 +61,6 @@ export const Login = () => {
                 value={formLogin.values.email}
               />
             </div>
-            {formLogin.errors.email && (
-              <span className="ml-2 text-error">{formLogin.errors.email}</span>
-            )}
           </div>
 
           <div>
@@ -77,6 +72,11 @@ export const Login = () => {
                 Password
               </label>
             </div>
+            {formLogin.errors.password && (
+              <span className="text-error text-xs">
+                {formLogin.errors.password}
+              </span>
+            )}
             <div className="mt-2">
               <input
                 id="password"
@@ -94,7 +94,8 @@ export const Login = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-md bg-accent px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+              disabled={!formLogin.isValid}
             >
               Log in
             </button>
