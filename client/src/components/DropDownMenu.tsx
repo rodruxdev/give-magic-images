@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export const DropDownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <div className="relative inline-block p-2">
@@ -35,7 +36,10 @@ export const DropDownMenu = () => {
             My Images
           </Link>
           <button
-            onClick={authContext?.logout}
+            onClick={() => {
+              authContext?.logout();
+              navigate("/");
+            }}
             className="block w-full text-left px-4 py-3 text-sm text-error capitalize transition-colors duration-200 transform hover:opacity-90 hover:bg-accent"
           >
             Log Out

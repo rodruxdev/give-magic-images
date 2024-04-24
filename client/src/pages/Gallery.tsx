@@ -3,9 +3,17 @@ import { ImagesContainer } from "../components/ImagesContainer";
 import { Modal } from "../components/Modal";
 import { useModalGallery } from "../hooks/useModalGallery";
 import { ImageVisor } from "../components/ImageVisor";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export const Gallery = () => {
+  const authContext = useContext(AuthContext);
   const { state, closeModal, openUpload, openImage } = useModalGallery();
+
+  if (!authContext?.isAuth) {
+    return <Navigate to={"/"} replace />;
+  }
 
   return (
     <div className="relative w-full h-min-screen items-center pt-20">

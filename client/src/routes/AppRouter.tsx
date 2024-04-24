@@ -11,7 +11,6 @@ const router = createBrowserRouter([
     element: <Root></Root>,
     children: [
       { path: "/", element: <Landing></Landing> },
-      // TODO: redirect if user is not logged in
       { path: "/gallery", element: <Gallery></Gallery> },
     ],
   },
