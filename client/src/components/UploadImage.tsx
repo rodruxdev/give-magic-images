@@ -88,7 +88,7 @@ export const UploadImage = ({
                   />
                 </svg>
               </span>
-              <p>Drag and drop your image here</p>
+              <p>You'll see the image preview here.</p>
             </>
           )}
         </div>
