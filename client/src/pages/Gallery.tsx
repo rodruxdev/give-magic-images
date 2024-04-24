@@ -7,27 +7,29 @@ import { useCallback, useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getImagesService } from "../services/ImagesService";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Gallery = () => {
   const authContext = useContext(AuthContext);
   const [images, setImages] = useState<Image[]>([]);
+  const navigate = useNavigate();
   const { state, closeModal, openUpload, openImage } = useModalGallery();
 
   const getImages = useCallback(async () => {
     if (authContext?.token) {
       const newImages = await getImagesService(authContext?.token);
       setImages(newImages);
+    } else {
+      const tokenLocalStorage = localStorage.getItem("jwt-token");
+      if (tokenLocalStorage === null) {
+        navigate("/");
+      }
     }
-  }, [authContext?.token]);
+  }, [authContext?.token, navigate]);
 
   useEffect(() => {
     getImages();
   }, [getImages]);
-
-  if (!authContext?.isAuth) {
-    return <Navigate to={"/"} replace />;
-  }
 
   return (
     <div className="relative w-full h-min-screen items-center pt-20">

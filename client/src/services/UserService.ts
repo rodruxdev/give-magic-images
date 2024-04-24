@@ -21,3 +21,18 @@ export const signinService = async (
   data = (await res.json()) as Promise<signinResponse>;
   return data;
 };
+
+export const getUserInfoService = async (token: string): Promise<UserInfo> => {
+  const res = await fetch(`${API_URL}/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: "GET",
+  });
+  if (!res.ok) {
+    throw new Error("Error obtaining user's info");
+  }
+
+  const data = (await res.json()) as UserInfo;
+  return data;
+};

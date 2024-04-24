@@ -1,5 +1,12 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { loginService } from "../services/AuthService";
+import { getUserInfoService } from "../services/UserService";
 
 interface AuthContextInterface {
   token: string;
@@ -36,12 +43,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("jwt-token");
   };
 
+  const getUserEmail = useCallback(async () => {
+    if (token !== "") {
+      const fetchedUser = await getUserInfoService(token);
+      if (fetchedUser.email === "") {
+        setError(true);
+        return;
+      }
+      setUserEmail(fetchedUser.email);
+    }
+  }, [token]);
+
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem("jwt-token");
     if (tokenLocalStorage !== null) {
       setToken(tokenLocalStorage);
+      getUserEmail();
     }
-  }, []);
+  }, [getUserEmail]);
 
   const initialAuthState = {
     token,
