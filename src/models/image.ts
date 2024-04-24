@@ -37,7 +37,7 @@ export class ImagesModel {
     const newImageId = randomUUID();
     const newImage: Image = {
       imageId: newImageId,
-      name: file.filename,
+      name: file.originalname,
       url: `/images/file/${file.filename}`,
       userId,
       creationDate: new Date().toISOString(),

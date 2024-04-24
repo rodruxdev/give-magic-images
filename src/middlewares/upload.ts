@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -5,7 +6,8 @@ const storage = multer.diskStorage({
     cb(null, "./tmp/images");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const imageId = randomUUID();
+    cb(null, `${imageId}-${file.originalname}`);
   },
 });
 
