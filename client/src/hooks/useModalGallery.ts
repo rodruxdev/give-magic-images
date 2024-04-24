@@ -12,7 +12,7 @@ type modalGalleryAction = {
 };
 
 const modalGalleryReducer: Reducer<modalGalleryState, modalGalleryAction> = (
-  state,
+  _,
   action
 ) => {
   switch (action.type) {
