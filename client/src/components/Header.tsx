@@ -8,7 +8,7 @@ export const Header = () => {
   const authContext = useContext(AuthContext);
 
   return (
-    <div className="w-full flex justify-between items-center px-8 py-4 absolute top-0">
+    <div className="w-full flex justify-between items-center px-8 py-4 absolute top-0 z-50">
       <Link to="/" className="text-3xl text-black font-bold">
         GiveMagic Images
       </Link>

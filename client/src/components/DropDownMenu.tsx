@@ -12,7 +12,7 @@ export const DropDownMenu = () => {
         className="relative z-10 text-lg flex gap-1 p-2 border-solid border-primary border-2 items-center text-black bg-white rounded focus:border-secondary focus:ring-opacity-40 focus:ring-secondary focus:ring focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="mx-1">{authContext?.userEmail ?? "Hola"} Hola</span>
+        <span className="mx-1">{authContext?.userEmail || "User"}</span>
         <svg
           className="w-5 h-5 mx-1"
           viewBox="0 0 24 24"
@@ -28,8 +28,9 @@ export const DropDownMenu = () => {
       {isOpen && (
         <div className="absolute right-0 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl">
           <Link
-            to="/"
+            to="/gallery"
             className="block px-4 py-3 text-sm text-black capitalize transition-colors duration-200 transform hover:opacity-90 hover:bg-accent hover:text-white"
+            onClick={() => setIsOpen(false)}
           >
             My Images
           </Link>
