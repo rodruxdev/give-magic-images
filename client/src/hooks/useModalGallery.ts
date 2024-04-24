@@ -3,12 +3,12 @@ import { Reducer, useReducer } from "react";
 type modalGalleryState = {
   open: boolean;
   type?: "upload" | "image";
-  image?: string;
+  image?: Image;
 };
 
 type modalGalleryAction = {
   type: "upload" | "close" | "image";
-  image?: string;
+  image?: Image;
 };
 
 const modalGalleryReducer: Reducer<modalGalleryState, modalGalleryAction> = (
@@ -55,7 +55,7 @@ export const useModalGallery = () => {
     dispatch({ type: "upload" });
   };
 
-  const openImage = (image: string) => {
+  const openImage = (image: Image) => {
     dispatch({ type: "image", image: image });
   };
 

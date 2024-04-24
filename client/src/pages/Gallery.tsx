@@ -3,13 +3,27 @@ import { ImagesContainer } from "../components/ImagesContainer";
 import { Modal } from "../components/Modal";
 import { useModalGallery } from "../hooks/useModalGallery";
 import { ImageVisor } from "../components/ImageVisor";
+import { useCallback, useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { getImagesService } from "../services/ImagesService";
 import { Navigate } from "react-router-dom";
 
 export const Gallery = () => {
   const authContext = useContext(AuthContext);
+  const [images, setImages] = useState<Image[]>([]);
   const { state, closeModal, openUpload, openImage } = useModalGallery();
+
+  const getImages = useCallback(async () => {
+    if (authContext?.token) {
+      const newImages = await getImagesService(authContext?.token);
+      setImages(newImages);
+    }
+  }, [authContext?.token]);
+
+  useEffect(() => {
+    getImages();
+  }, [getImages]);
 
   if (!authContext?.isAuth) {
     return <Navigate to={"/"} replace />;
@@ -28,8 +42,6 @@ export const Gallery = () => {
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               xmlnsXlink="http://www.w3.org/1999/xlink"
-              width="auto"
-              height="auto"
               viewBox="0 0 45.402 45.402"
               xmlSpace="preserve"
             >
@@ -46,13 +58,19 @@ export const Gallery = () => {
           Add image
         </button>
       </div>
-      <ImagesContainer openImage={openImage}></ImagesContainer>
+      <ImagesContainer openImage={openImage} images={images}></ImagesContainer>
       {state.open && (
         <Modal closeModal={closeModal}>
-          {state.type === "image" ? (
-            <ImageVisor closeModal={closeModal}></ImageVisor>
+          {state.type === "image" && state.image ? (
+            <ImageVisor
+              closeModal={closeModal}
+              image={state.image}
+            ></ImageVisor>
           ) : (
-            <UploadImage closeModal={closeModal}></UploadImage>
+            <UploadImage
+              closeModal={closeModal}
+              getImages={getImages}
+            ></UploadImage>
           )}
         </Modal>
       )}

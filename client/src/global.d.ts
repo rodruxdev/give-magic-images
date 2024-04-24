@@ -10,4 +10,17 @@ declare global {
     userId: UUID;
     email: string;
   };
+
+  type Image = {
+    imageId: UUID;
+    name: string;
+    url: string;
+    userId: UUID;
+    creationDate: string;
+  };
+
+  type ImageDataType = {
+    preview: string;
+    data?: File;
+  };
 }
